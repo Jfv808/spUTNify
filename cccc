@@ -1,0 +1,72 @@
+void cargaUnaCancion()
+{
+    FILE *archi;
+    Cancion a;
+
+    archi=fopen(nombreArchivo,"a+b");
+    if(archi!=NULL)
+    {
+        puts("\n----------------------------------");
+        printf("\n Ingrese titulo: ");
+        scanf("%d", &a.titulo);
+
+        printf("\n Ingrese artista: ");
+        fflush(stdin);
+        gets(a.artista);
+
+        printf("\n Ingrese album: ");
+        fflush(stdin);
+        gets(a.album);
+
+        printf("\n Ingrese genero: ");
+        fflush(stdin);
+        gets(a.genero);
+
+        printf("\n Ingrese comentario: ");
+        fflush(stdin);
+        gets(a.comentario);
+
+        printf("\n Ingrese duracion: ");
+        scanf("%f", &a.duracion);
+        puts("----------------------------------\n");
+
+        fwrite(&a,sizeof(Cancion),1,archi);
+
+        fclose(archi);
+    }
+}
+
+
+void modificacionEliminado()
+{
+    FILE *arch;
+    arch=fopen(archivoCancion,"r+b");
+    if (arch==NULL)
+        exit(1);
+    printf("Ingrese el ID de cancion a eliminar:");
+    int cod;
+    scanf("%d", &cod);
+    Cancion a;
+    int existe=0;
+    fread(&a, sizeof(Cancion), 1, arch);
+    while(!feof(arch))
+    {
+        if (cod==a.idCancion)
+        {
+           printf("ID:%d  Artista %s Eliminado %d\n", a.idCancion, a.artista, a.eliminado);
+           printf("\nIngrese 1 para eliminar 0 para persistir: ");
+           scanf("%d",&a.eliminado);
+           int pos=ftell(arch)-sizeof(Cancion);
+           fseek(arch,pos,SEEK_SET);
+           fwrite(&a, sizeof(Cancion), 1, arch);
+           printf("Se modifico el estado para dicha cancion.\n");
+           existe=1;
+           break;
+        }
+        fread(&a, sizeof(Cancion), 1, arch);
+    }
+    if (existe==0)
+        printf("No existe una cancion con dicho Id\n");
+    fclose(arch);
+    continuar();
+}
