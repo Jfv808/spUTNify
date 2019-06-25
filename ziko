@@ -68,3 +68,36 @@ void mostrarUsuario(usuario a)
 
 
 }
+void modificacionEliminadoUsuario()
+{
+    FILE *arch;
+    arch=fopen(archivoUsuario,"r+b");
+    if (arch==NULL)
+        exit(1);
+    printf("Ingrese el ID de usuario a eliminar:");
+    int cod;
+    scanf("%d", &cod);
+    usuario a;
+    int existe=0;
+    fread(&a, sizeof(usuario), 1, arch);
+    while(!feof(arch))
+    {
+        if (cod==a.idUsuario)
+        {
+            printf("ID:%d  Usuario %s Eliminado %d\n", a.idUsuario, a.nombreUsuario, a.eliminado);
+            printf("\nIngrese 1 para eliminar 0 para persistir: ");
+            scanf("%d",&a.eliminado);
+            int pos=ftell(arch)-sizeof(usuario);
+            fseek(arch,pos,SEEK_SET);
+            fwrite(&a, sizeof(usuario), 1, arch);
+            printf("Se modifico el estado para dicho Usuario\n");
+            existe=1;
+            break;
+        }
+        fread(&a, sizeof(usuario), 1, arch);
+    }
+    if (existe==0)
+        printf("No existe un Usuario con dicho Id\n");
+    fclose(arch);
+
+}
