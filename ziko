@@ -47,3 +47,24 @@ void arregloToFile (int arre[],int validos,int id)
         fclose(archi);
     }
 }
+void mostrarUsuario(usuario a)
+{
+    int cant = a.cantidad;
+    int i;
+    puts("\n---------------------------------------");
+    printf("\n                  Id: %d", a.idUsuario);
+    printf("\n              Nombre: %s", a.nombreUsuario);
+    printf("\n            Password: %s", a.pass);
+    printf("\n      Año Nacimiento: %d", a.anioNacimiento);
+    printf("\n                Pais: %s", a.pais);
+    printf("\n            Playlist: ");
+    for(i=0; i<cant; i++)
+    {
+    printf("%d-", a.playlist[i]);
+    }
+    printf("\n            Cantidad: %d", a.cantidad);
+    printf("\n     Esta eliminado?: %d", a.eliminado);
+    puts("\n---------------------------------------");
+
+
+}
