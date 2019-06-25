@@ -1,6 +1,6 @@
-void armarPlaylist(int id,Cancion z[],int val) //ID ES LA POSICION DENTRO DEL ARCHIVO
+void armarPlaylist(int id,Cancion z[],int val)
 {
-    muestraArregloStruct (z,val); // PARA QUE EL USUARIO VEA LA LISTA DE CANCIONES
+    muestraArregloStruct (z,val);
 
     int dimension = 20;
     int arregloId [dimension];
@@ -13,29 +13,37 @@ void armarPlaylist(int id,Cancion z[],int val) //ID ES LA POSICION DENTRO DEL AR
         scanf("%d",&arregloId[i]);
         i++;
         printf("desea agregar otra...s/n \n");
+        fflush(stdin);
         scanf("%c",&control);
     }
     arregloToFile (arregloId,i,id);
 }
 void arregloToFile (int arre[],int validos,int id)
 {
+
+    printf("validos %d",validos);
+    printf("id %d",id);
+
     FILE* archi;
     usuario a;
-    int i =0;
-
-    archi=fopen(archivoCancion,"r+b");
+    int i;
+    int pos;
+    archi=fopen(archivoUsuario,"r+b");
 
     if (archi!=NULL)
     {
-        if(fseek(archi,sizeof(usuario)*id,SEEK_SET)==0)
+        fseek(archi,sizeof(usuario)*id,SEEK_SET);
+        fread(&a,sizeof(usuario),1,archi);
+        pos = ftell(archi)-sizeof(usuario);
+        fseek(archi,pos,SEEK_SET);
+
+        for(i=0; i<validos; i++)
         {
-            while(i<validos)
-            {
-                a[i].playlist = arre[i]; ////////////////ACA ME TIRA EL ERROR "subscripted value is neither an array nor vector nor pointer" 
-                i++;
-                fwrite(&a,sizeof(usuario),1,archi);
-            }
+            a.playlist[i]=arre[i];
+            a.cantidad = i+1;
         }
+        fwrite(&a,sizeof(usuario),1,archi);
+
         fclose(archi);
     }
 }
