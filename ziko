@@ -101,3 +101,196 @@ void modificacionEliminadoUsuario()
     fclose(arch);
 
 }
+
+void ModificarCampoUsuario()
+{
+    int opcion =0;
+    do
+    {
+        system ("cls");
+        printf ("1. Modificar Nombre \n\n");
+        printf ("2. Modificar Password\n\n");
+        printf ("3. Modificar Anio\n\n");
+        printf ("4. Modificar Pais de Nacimiento\n\n");
+        printf ("5. Salir\n\n");
+        scanf ("%d",&opcion);
+
+        switch (opcion)
+        {
+        case 1:
+            system ("cls");
+            modificacionNombre();
+            getch();
+            break;
+
+        case 2:
+            system ("cls");
+            modificacionPassword();
+            getch();
+            break;
+
+        case 3:
+            system ("cls");
+            modificacionAnio();
+            getch ();
+            break;
+
+        case 4:
+            system ("cls");
+            modificacionPais();
+            getch ();
+            break;
+
+        case 5:
+            break;
+
+
+        default:
+            system ("cls");
+            printf ("Opcion no valida");
+            break;
+        }
+    }
+    while(opcion!=5);
+
+    return 0;
+}
+void modificacionPais()
+{
+    FILE *arch;
+    arch=fopen(archivoUsuario,"r+b");
+    if (arch==NULL)
+        exit(1);
+    printf("Ingrese el ID de Usuario a modificar Pais de Nacimiento:");
+    int cod;
+    scanf("%d", &cod);
+    usuario a;
+    int existe=0;
+    fread(&a, sizeof(usuario), 1, arch);
+    while(!feof(arch))
+    {
+        if (cod==a.idUsuario)
+        {
+            printf("Pais de nacimiento %s\n", a.pais);
+            printf("\nIngrese nuevo Pais de Nacimiento: ");
+            scanf("%s",&a.pais);
+            int pos=ftell(arch)-sizeof(usuario);
+            fseek(arch,pos,SEEK_SET);
+            fwrite(&a, sizeof(usuario), 1, arch);
+            printf("Se modifico el pais de nacimiento exitosamente.\n");
+            existe=1;
+            break;
+        }
+        fread(&a, sizeof(usuario), 1, arch);
+    }
+    if (existe==0)
+        printf("No existe un usuario con dicho Id\n");
+    fclose(arch);
+}
+void modificacionAnio()
+{
+    FILE *arch;
+    arch=fopen(archivoUsuario,"r+b");
+    if (arch==NULL)
+        exit(1);
+    printf("Ingrese el ID de Usuario a modificar Anio de Nacimiento:");
+    int cod;
+    scanf("%d", &cod);
+    usuario a;
+    int existe=0;
+    fread(&a, sizeof(usuario), 1, arch);
+    while(!feof(arch))
+    {
+        if (cod==a.idUsuario)
+        {
+            printf("Anio %d\n", a.anioNacimiento);
+            printf("\nIngrese nuevo Anio de nacimiento: ");
+            scanf("%d",&a.anioNacimiento);
+            int pos=ftell(arch)-sizeof(usuario);
+            fseek(arch,pos,SEEK_SET);
+            fwrite(&a, sizeof(usuario), 1, arch);
+            printf("Se modifico el anio exitosamente.\n");
+            existe=1;
+            break;
+        }
+        fread(&a, sizeof(usuario), 1, arch);
+    }
+    if (existe==0)
+        printf("No existe un usuario con dicho Id\n");
+    fclose(arch);
+}
+void modificacionPassword()
+{
+    FILE *arch;
+    arch=fopen(archivoUsuario,"r+b");
+    if (arch==NULL)
+        exit(1);
+    printf("Ingrese el ID de Usuario a modificar password:");
+    int cod;
+    scanf("%d", &cod);
+    usuario a;
+    int existe=0;
+    fread(&a, sizeof(usuario), 1, arch);
+    while(!feof(arch))
+    {
+        if (cod==a.idUsuario)
+        {
+            printf("Password %s\n", a.pass);
+            printf("\nIngrese nueva Password: ");
+            scanf("%s",&a.pass);
+            int pos=ftell(arch)-sizeof(usuario);
+            fseek(arch,pos,SEEK_SET);
+            fwrite(&a, sizeof(usuario), 1, arch);
+            printf("Se modifico la password exitosamente.\n");
+            existe=1;
+            break;
+        }
+        fread(&a, sizeof(usuario), 1, arch);
+    }
+    if (existe==0)
+        printf("No existe un usuario con dicho Id\n");
+    fclose(arch);
+}
+void modificacionNombre()
+{
+    FILE *arch;
+    arch=fopen(archivoUsuario,"r+b");
+    if (arch==NULL)
+        exit(1);
+    printf("Ingrese el ID de Usuario a modificar nombre:");
+    int cod;
+    scanf("%d", &cod);
+    usuario a;
+    int existe=0;
+    fread(&a, sizeof(usuario), 1, arch);
+    while(!feof(arch))
+    {
+        if (cod==a.idUsuario)
+        {
+            printf("Nombre %s\n", a.nombreUsuario);
+            printf("\nIngrese nuevo nombre de Usuario: ");
+            scanf("%s",&a.nombreUsuario);
+            int pos=ftell(arch)-sizeof(usuario);
+            fseek(arch,pos,SEEK_SET);
+            fwrite(&a, sizeof(usuario), 1, arch);
+            printf("Se modifico el nombre exitosamente.\n");
+            existe=1;
+            break;
+        }
+        fread(&a, sizeof(usuario), 1, arch);
+    }
+    if (existe==0)
+        printf("No existe un usuario con dicho Id\n");
+    fclose(arch);
+}
+void guardaAdmi()
+{
+    admi a;
+    FILE*archi=fopen(archivoAdm,"wb");
+    if (archi!=NULL)
+    {
+        fwrite(&a,sizeof(admi),1,archi);
+    }
+    fclose (archi);
+
+}
