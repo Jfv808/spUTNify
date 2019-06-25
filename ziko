@@ -523,5 +523,20 @@ void escucharPlaylist(int id)
     if (existe==0)
         printf("No existe un usuario con dicho Id\n");
     fclose(arch);
-}
 
+    mostrarArregloPlaylist(arregloCanciones,val);
+}
+void mostrarArregloPlaylist(int arreglo[], int validos)
+{
+    int j;
+    int reproducir;
+
+    printf("\n Tu playlist contiene las canciones  :  \n")
+    for(int j = 0; j < validos ; j++)
+    {
+        printf("[ %d ]", arreglo[j]);
+    }
+
+    printf("\Ingrese el numero que quiere escuchar : ");
+    scanf("%d", &reproducir);
+///////////////////////////////////////////////////////ACA HAY QUE MOSTRAR CANCION
