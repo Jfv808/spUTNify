@@ -487,3 +487,41 @@ void modificacionAlbum()
     fclose(arch);
 
 }
+
+-------------------------------------------------------------------------------------------------
+
+void escucharPlaylist(int id)
+{
+    int arregloCanciones[30];
+    int i;
+
+    FILE *arch;
+    arch=fopen(archivoUsuario,"rb");
+    if (arch==NULL)
+        exit(1);
+    int cod = id;
+    usuario a;
+    int existe=0;
+    fread(&a, sizeof(usuario), 1, arch);
+    while(!feof(arch))
+    {
+        if (cod==a.idUsuario)
+        {
+            fread(&a,sizeof(usuario),1,archi);
+            int pos=ftell(arch)-sizeof(usuario);
+            fseek(arch,pos,SEEK_SET);
+            int val = a.cantidad;
+            for(i=0; i<val; i++)
+            {
+                arregloCanciones[i]= a.playlist[i];
+            }
+            existe=1;
+            break;
+        }
+        fread(&a, sizeof(usuario), 1, arch);
+    }
+    if (existe==0)
+        printf("No existe un usuario con dicho Id\n");
+    fclose(arch);
+}
+
