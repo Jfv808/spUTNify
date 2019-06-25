@@ -102,6 +102,10 @@ void modificacionEliminadoUsuario()
 
 }
 
+
+
+-------------------------------------------------------------------------------------------------
+
 void ModificarCampoUsuario()
 {
     int opcion =0;
@@ -292,5 +296,194 @@ void guardaAdmi()
         fwrite(&a,sizeof(admi),1,archi);
     }
     fclose (archi);
+
+}
+
+
+----------------------------------------------------------------------------------------------
+
+
+
+void ModificarCampoCancion()
+{
+    int opcion =0;
+    do
+    {
+        system ("cls");
+        printf ("1. Modificar Titulo \n\n");
+        printf ("2. Modificar Artista\n\n");
+        printf ("3. Modificar Duracion\n\n");
+        printf ("4. Modificar Album \n\n");
+        printf ("5. Salir\n\n");
+        scanf ("%d",&opcion);
+
+        switch (opcion)
+        {
+        case 1:
+            system ("cls");
+            modificacionTitulo();
+            getch();
+            break;
+
+        case 2:
+            system ("cls");
+            modificacionArtista();
+            getch();
+            break;
+
+        case 3:
+            system ("cls");
+            modificacionDuracion();
+            getch ();
+            break;
+
+        case 4:
+            system ("cls");
+            modificacionAlbum();
+            getch ();
+            break;
+
+        case 5:
+            break;
+
+
+        default:
+            system ("cls");
+            printf ("Opcion no valida");
+            break;
+        }
+    }
+    while(opcion!=5);
+
+    return 0;
+}
+void modificacionTitulo()
+{
+    FILE *arch;
+    arch=fopen(archivoCancion,"r+b");
+    if (arch==NULL)
+        exit(1);
+    printf("Ingrese el ID de cancion a cambiar titulo:");
+    int cod;
+    scanf("%d", &cod);
+    Cancion a;
+    int existe=0;
+    fread(&a, sizeof(Cancion), 1, arch);
+    while(!feof(arch))
+    {
+        if (cod==a.idCancion)
+        {
+            printf(" Artista %s Titulo %s\n",a.artista, a.titulo);
+            printf("\nIngrese Nuevo Titulo: ");
+            scanf("%s",&a.titulo);
+            int pos=ftell(arch)-sizeof(Cancion);
+            fseek(arch,pos,SEEK_SET);
+            fwrite(&a, sizeof(Cancion), 1, arch);
+            printf("Se modifico el Titulo de la cancion exitosamente.\n");
+            existe=1;
+            break;
+        }
+        fread(&a, sizeof(Cancion), 1, arch);
+    }
+    if (existe==0)
+        printf("No existe una cancion con dicho Id\n");
+    fclose(arch);
+
+}
+void modificacionArtista()
+{
+    FILE *arch;
+    arch=fopen(archivoCancion,"r+b");
+    if (arch==NULL)
+        exit(1);
+    printf("Ingrese el ID de cancion a cambiar Nombre Artista:");
+    int cod;
+    scanf("%d", &cod);
+    Cancion a;
+    int existe=0;
+    fread(&a, sizeof(Cancion), 1, arch);
+    while(!feof(arch))
+    {
+        if (cod==a.idCancion)
+        {
+            printf(" Artista %s \n",a.artista);
+            printf("\nIngrese Nuevo nombre de Artista: ");
+            scanf("%s",&a.artista);
+            int pos=ftell(arch)-sizeof(Cancion);
+            fseek(arch,pos,SEEK_SET);
+            fwrite(&a, sizeof(Cancion), 1, arch);
+            printf("Se modifico el nombre del artista exitosamente.\n");
+            existe=1;
+            break;
+        }
+        fread(&a, sizeof(Cancion), 1, arch);
+    }
+    if (existe==0)
+        printf("No existe una cancion con dicho Id\n");
+    fclose(arch);
+}
+void modificacionDuracion()
+{
+    FILE *arch;
+    arch=fopen(archivoCancion,"r+b");
+    if (arch==NULL)
+        exit(1);
+    printf("Ingrese el ID de cancion a cambiar  Duracion :");
+    int cod;
+    scanf("%d", &cod);
+    Cancion a;
+    int existe=0;
+    fread(&a, sizeof(Cancion), 1, arch);
+    while(!feof(arch))
+    {
+        if (cod==a.idCancion)
+        {
+            printf(" Duracion %.2f \n",a.duracion);
+            printf("\nIngrese Nueva Duracion para la cancion: ");
+            scanf("%f",&a.duracion);
+            int pos=ftell(arch)-sizeof(Cancion);
+            fseek(arch,pos,SEEK_SET);
+            fwrite(&a, sizeof(Cancion), 1, arch);
+            printf("Se modifico la duracion exitosamente.\n");
+            existe=1;
+            break;
+        }
+        fread(&a, sizeof(Cancion), 1, arch);
+    }
+    if (existe==0)
+        printf("No existe una cancion con dicho Id\n");
+    fclose(arch);
+}
+void modificacionAlbum()
+{
+    FILE *arch;
+    arch=fopen(archivoCancion,"r+b");
+    if (arch==NULL)
+        exit(1);
+    printf("Ingrese el ID de cancion a cambiar titulo del Album:");
+    int cod;
+    scanf("%d", &cod);
+    Cancion a;
+    int existe=0;
+    fread(&a, sizeof(Cancion), 1, arch);
+    while(!feof(arch))
+    {
+        if (cod==a.idCancion)
+        {
+            printf(" Album %s\n", a.album);
+            printf("\nIngrese Nuevo Titulo para Album: ");
+            scanf("%s",&a.album);
+            int pos=ftell(arch)-sizeof(Cancion);
+            fseek(arch,pos,SEEK_SET);
+            fwrite(&a, sizeof(Cancion), 1, arch);
+            printf("Se modifico el Titulo del Album exitosamente.\n");
+            existe=1;
+            break;
+        }
+        fread(&a, sizeof(Cancion), 1, arch);
+    }
+    if (existe==0)
+        printf("No existe una cancion con dicho Id\n");
+    fclose(arch);
 
 }
